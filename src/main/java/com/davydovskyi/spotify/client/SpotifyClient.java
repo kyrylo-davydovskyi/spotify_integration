@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+
 import com.davydovskyi.spotify.domain.AccessTokenRequest;
 import com.davydovskyi.spotify.domain.AccessTokenResponse;
 
