@@ -33,20 +33,12 @@ public class SpotifyAuthService {
     }
 
     public void exchangeCodeForToken(String code) {
-        var response = spotifyClient.getAccessToken(buildAuthHeader(), buildBody(code));
+        var response = spotifyClient.getAccessToken(buildAuthHeader(), new AccessTokenRequest(code, redirectUri));
         log.info("Response: {}", response);
     }
 
     private String buildAuthHeader() {
         var base64 = Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes());
         return "Basic " + base64;
-    }
-
-    private Map<String, String> buildBody(String code) {
-        var body = new ConcurrentHashMap<String, String>();
-        body.put("grant_type", "authorization_code");
-        body.put("code", code);
-        body.put("redirect_uri", redirectUri);
-        return body;
     }
 }
