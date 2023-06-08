@@ -1,0 +1,20 @@
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :resolveMainClassName
+> Task :bootJar
+> Task :jar
+> Task :assemble
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+
+> Task :test
+
+SpotifyAnalyzerApplicationTests > contextLoads() FAILED
+    java.lang.IllegalStateException at DefaultCacheAwareContextLoaderDelegate.java:142
+        Caused by: org.springframework.beans.factory.BeanCreationException at AutowiredAnnotationBeanPostProcessor.java:489
+            Caused by: java.lang.IllegalArgumentException at PropertyPlaceholderHelper.java:180
+
+> Task :test FAILED
+7 actionable tasks: 7 executed
