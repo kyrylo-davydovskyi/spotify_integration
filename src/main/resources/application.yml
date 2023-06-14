@@ -2,9 +2,8 @@ server:
   port: 8085
 
 spotify:
-  clientId: 5c0a3d345c4942bab94fa761cc9e7309
-  clientSecret: 67ee870c66eb4b7e8af9c5b5d6fd0924
-  redirectUri: http://localhost:8085/callback
+  clientId: ${clientId}
+  clientSecret: ${clientSecret}
 
 
 logging:
