@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.davydovskyi.spotify.model.ClusterizationRequest;
 import com.davydovskyi.spotify.model.SongDTO;
@@ -16,8 +17,9 @@ import com.davydovskyi.spotify.services.SongsService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller("/playlists")
+@Controller
 @RequiredArgsConstructor
+@RequestMapping("/playlists")
 public class PlaylistClusterizerController {
 
     private final SongsService songsService;

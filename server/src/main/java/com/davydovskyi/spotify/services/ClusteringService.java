@@ -12,7 +12,7 @@ public class ClusteringService {
 
     private static List<SongData> prepareData(List<SongDTO> songs) {
         return songs.stream()
-                .map(song -> new SongData(song, new double[] { song.getPopularityOfSong(), song.getDurationInMs() }))
+                .map(song -> new SongData(song, new double[] { song.getDurationInMs(), song.getPopularityOfSong() }))
                 .collect(Collectors.toList());
     }
 
