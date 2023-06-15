@@ -1,0 +1,89 @@
+.container {
+    display: flex;
+}
+
+
+.sidePanel {
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-align: center;
+        align-items: center;
+    margin: 0 auto;
+    -ms-flex-pack: center;
+        justify-content: center;
+    width: 15%;
+    margin-top: 3%;
+    margin-left: 3%;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.sidePanel>*+* {
+    margin-top: 5%;
+}
+
+
+.dataArea {
+    flex: 1;
+    overflow: hidden;
+}
+
+.buttonsArea {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsArea>*+* {
+    margin-top: 10px;
+}
+
+
+.big-btn {
+    color: #fff;
+    background-color: #7c25f8;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 500px;
+    padding: 18px 48px 16px;
+    transition-property: background-color;
+    transition-duration: .3s;
+    border-width: 0;
+    letter-spacing: 2px;
+    min-width: 160px;
+    text-transform: uppercase;
+    white-space: normal;
+    cursor: pointer;
+}
+
+.big-btn:hover {
+    background-color: #6207e3;
+}
+
+body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.searchLabels {
+    color: azure;
+}
