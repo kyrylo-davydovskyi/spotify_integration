@@ -1,105 +1,109 @@
 import React, { useEffect, useRef } from 'react';
-import { Chart, ChartData, ChartOptions, TooltipItem, registerables } from 'chart.js';
+import { Chart, ChartData, ChartOptions, registerables, TooltipItem } from 'chart.js';
 import { SongDTO } from './types';
+
 interface ChartComponentProps {
-    clusters: Record<string, SongDTO[]> | null;
+  clusters: Record<string, SongDTO[]> | null;
 }
 
-
-
 const ChartComponent: React.FC<ChartComponentProps> = ({ clusters }) => {
-    const chartRef = useRef<HTMLCanvasElement>(null);
-    Chart.register(...registerables);
+  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<Chart | null>(null);
 
-    useEffect(() => {
-        
-        if (chartRef.current && clusters) {
-            const chartData: ChartData = {
-                labels: [],
-                datasets: []
-            };
+  Chart.register(...registerables);
+  Chart.defaults.color = 'azure';
+  Chart.defaults.borderColor = 'azure';
 
-            const clusterLabels = Object.keys(clusters);
+  useEffect(() => {
+    if (chartRef.current && clusters) {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
 
-            // Generate random colors for each cluster
-            const clusterColors: string[] = generateClusterColors(clusterLabels.length);
+      const chartData: ChartData = {
+        labels: [],
+        datasets: []
+      };
 
-            // Iterate over each cluster
-            clusterLabels.forEach((clusterLabel, clusterIndex) => {
-                const songs = clusters[clusterLabel];
+      const clusterLabels = Object.keys(clusters);
 
-                const dataPoints = songs.map((song) => ({
-                    x: song.popularityOfSong,
-                    y: song.durationInMs,
-                    artist: song.artistNames,
-                    songName: song.songName
-                }));
+      // Generate random colors for each cluster
+      const clusterColors: string[] = generateClusterColors(clusterLabels.length);
 
-                chartData.labels!.push(clusterLabel);
-                chartData.datasets.push({
-                    label: clusterLabel,
-                    data: dataPoints,
-                    backgroundColor: clusterColors[clusterIndex],
-                    borderColor: clusterColors[clusterIndex],
-                    borderWidth: 1
-                });
-            });
+      // Iterate over each cluster
+      clusterLabels.forEach((clusterLabel, clusterIndex) => {
+        const songs = clusters[clusterLabel];
 
-            const chartOptions: ChartOptions = {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Popularity'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Duration (ms)'
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: (context: TooltipItem<any>) => {
-                                const dataPoint = context.raw as any;
-                                return `${dataPoint.artist} - ${dataPoint.songName}`;
-                            }
-                        }
-                    }
-                }
-            };
+        const dataPoints = songs.map((song) => ({
+          x: song.popularityOfSong,
+          y: song.durationInMs,
+          artist: song.artistNames,
+          songName: song.songName
+        }));
 
-            new Chart(chartRef.current, {
-                type: 'scatter',
-                data: chartData,
-                options: chartOptions
-            });
-        }
-    }, [clusters]);
+        chartData.labels!.push(clusterLabel);
 
-    // Function to generate random colors for each cluster
-    const generateClusterColors = (numClusters: number): string[] => {
-        const colors: string[] = [];
-        for (let i = 0; i < numClusters; i++) {
-            const color = `rgba(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, 0.6)`;
-            colors.push(color);
-        }
-        return colors;
-    };
+        chartData.datasets.push({
+          label: clusterLabel,
+          data: dataPoints,
+          backgroundColor: clusterColors[clusterIndex],
+          borderColor: clusterColors[clusterIndex],
+          borderWidth: 1
+        });
+      });
 
-    // Function to generate random integer between min and max (inclusive)
-    const getRandomInt = (min: number, max: number): number => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
+      new Chart(chartRef.current, {
+        type: 'scatter',
+        data: chartData,
+        options: chartOptions,
+      });
+    }
+  }, [ clusters ]);
 
-    return (
-        <div>
-            <canvas ref={chartRef} />
-        </div>
-    );
+  return (
+    <div className='chart'>
+      <canvas ref={chartRef} />
+    </div>
+  );
 };
 
-export default ChartComponent;
+export default ChartComponent
+
+
+// Function to generate random colors for each cluster
+const generateClusterColors = (numClusters: number): string[] =>
+  new Array(numClusters)
+    .fill(1)
+    .map(() => `rgba(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, 0.6)`)
+
+// Function to generate random integer between min and max (inclusive)
+const getRandomInt = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1)) + min
+
+const chartOptions: ChartOptions = {
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: 'Popularity'
+      }
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Duration (ms)'
+      }
+    }
+  },
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (context: TooltipItem<any>) => {
+          const dataPoint = context.raw as any;
+          return `${dataPoint.artist} - ${dataPoint.songName}`;
+        }
+      }
+    }
+  }
+};
+

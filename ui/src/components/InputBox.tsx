@@ -14,7 +14,7 @@ const InputBox: React.FC<InputBoxProps> = ({ label, value, onChange }) => {
 
   return (
     <div>
-      <label className = "searchLabels">{label}</label>
+      <label className="searchLabels">{label}</label>
       <input type="text" value={value} onChange={handleChange} />
     </div>
   );
