@@ -8,7 +8,6 @@ interface ChartComponentProps {
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ clusters }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
-  const chartInstanceRef = useRef<Chart | null>(null);
 
   Chart.register(...registerables);
   Chart.defaults.color = 'azure';
@@ -16,10 +15,6 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ clusters }) => {
 
   useEffect(() => {
     if (chartRef.current && clusters) {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
-      }
-
       const chartData: ChartData = {
         labels: [],
         datasets: []
@@ -42,7 +37,6 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ clusters }) => {
         }));
 
         chartData.labels!.push(clusterLabel);
-
         chartData.datasets.push({
           label: clusterLabel,
           data: dataPoints,
